@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhumit K. Hathwalia | Ultimate NEET Resource Hub</title>
+    <style>
+        /* ==========================================================================
+           1. CORE DESIGN SYSTEM & VARIABLES (SUPPORTING THEME SWITCHING)
+           ========================================================================== */
+        :root, [data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #090d16 0%, #111126 50%, #1a102f 100%);
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-hover-bg: rgba(255, 255, 255, 0.09);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(255, 255, 255, 0.2);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --body-bg-solid: #090d16;
+            
+            /* UI Accent Accoutrements */
+            --primary-accent: #6366f1;
+            --primary-accent-rgb: 99, 102, 241;
+            --success-accent: #10b981;
+            --warning-accent: #f59e0b;
+            --danger-accent: #ef4444;
+            --glass-blur: blur(16px);
+            --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            
+            /* Subject Specific Colors */
+            --bio-color: #10b981;
+            --bio-bg: rgba(16, 185, 129, 0.12);
+            --chem-color: #3b82f6;
+            --chem-bg: rgba(59, 130, 246, 0.12);
+            --phy-color: #f59e0b;
+            --phy-bg: rgba(245, 158, 11, 0.12);
+            --general-color: #a855f7;
+            --general-bg: rgba(168, 85, 247, 0.12);
+        }
+
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 50%, #dbeafe 100%);
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-hover-bg: rgba(255, 255, 255, 0.95);
+            --card-border: rgba(15, 23, 42, 0.08);
+            --card-hover-border: rgba(99, 102, 241, 0.4);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --body-bg-solid: #f0f4f8;
+            
+            --shadow-premium: 0 15px 35px -10px rgba(99, 102, 241, 0.15);
+            --bio-bg: rgba(16, 185, 129, 0.08);
+            --chem-bg: rgba(59, 130, 246, 0.08);
+            --phy-bg: rgba(245, 158, 11, 0.08);
+            --general-bg: rgba(168, 85, 247, 0.08);
+        }
+
+        /* ==========================================================================
+           2. GLOBAL RESET & SCROLLBAR SYSTEMS
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-color: var(--body-bg-solid);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 60px 20px 100px 20px;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar Configuration */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--body-bg-solid);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-accent);
+        }
+
+        /* Main Shell Layout */
+        .app-shell {
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* ==========================================================================
+           3. FLOATING ACTION CONTROLS & UTILITIES (TOP CONTROLS BAR)
+           ========================================================================== */
+        .utility-dock {
+            position: absolute;
+            top: -20px;
+            right: 0;
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .dock-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--text-primary);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .dock-btn:hover {
+            border-color: var(--primary-accent);
+            transform: translateY(-2px);
+            background: var(--card-hover-bg);
+        }
+
+        /* ==========================================================================
+           4. PROFILE ARCHITECTURE & VERIFICATION BLOCKS
+           ========================================================================== */
+        .profile-container {
+            text-align: center;
+            margin-bottom: 32px;
+            width: 100%;
+        }
+
+        .avatar-matrix {
+            position: relative;
+            width: 124px;
+            height: 124px;
+            margin: 0 auto 20px auto;
+        }
+
+        .avatar-glow {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: 132px;
+            height: 132px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--bio-color), var(--chem-color), var(--phy-color));
+            opacity: 0.4;
+            filter: blur(8px);
+            z-index: 1;
+            animation: rotateGlow 8s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .profile-image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--body-bg-solid);
+            z-index: 2;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .badge-verified {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: var(--primary-accent);
+            color: #ffffff;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--body-bg-solid);
+            font-size: 13px;
+            font-weight: 900;
+            z-index: 3;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .identity-title {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .identity-sub-headline {
+            font-size: 14px;
+            color: var(--text-secondary);
+            max-width: 88%;
+            margin: 0 auto 20px auto;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* Social Navigation Grid Row */
+        .social-matrix-row {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .social-link-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .social-link-item:hover {
+            color: var(--text-primary);
+            border-color: var(--primary-accent);
+            background: var(--card-hover-bg);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           5. INTERACTIVE LIVE COUNTDOWN ENGINE & TICKER
+           ========================================================================== */
+        .countdown-ticker-box {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 18px;
+            padding: 16px 24px;
+            margin-bottom: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .countdown-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--danger-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .live-pulse {
+            width: 8px;
+            height: 8px;
+            background-color: var(--danger-accent);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+            animation: internalPulse 1.8s infinite;
+        }
+
+        @keyframes internalPulse {
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        .countdown-segment {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            padding: 8px 4px;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .time-val {
+            font-size: 20px;
+            font-weight: 800;
+            display: block;
+            color: var(--text-primary);
+        }
+
+        .time-lbl {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* ==========================================================================
+           6. LIVE ANNOUNCEMENT NOTICEBOARD BANNER
+           ========================================================================== */
+        .marquee-announcement-banner {
+            width: 100%;
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            border-radius: 18px;
+            padding: 16px 22px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .marquee-announcement-banner:hover {
+            transform: scale(1.01) translateY(-2px);
+            border-color: var(--primary-accent);
+        }
+
+        .announcement-inner-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-align: left;
+        }
+
+        .announcement-icon-badge {
+            background: var(--primary-accent);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .announcement-main-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .announcement-header-label {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .announcement-sub-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .announcement-action-chip {
+            font-size: 11px;
+            font-weight: 700;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        /* ==========================================================================
+           7. POWERFUL DYNAMIC SEARCH & SELECTION FILTERS SYSTEM
+           ========================================================================== */
+        .search-engine-box {
+            position: relative;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .search-input-field {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 16px 20px 16px 52px;
+            border-radius: 16px;
+            font-size: 15px;
+            color: var(--text-primary);
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .search-input-field:focus {
+            border-color: var(--primary-accent);
+            background: var(--card-hover-bg);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        .search-icon-magnifier {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 18px;
+            pointer-events: none;
+        }
+
+        /* Segment Matrix Nav Tabs */
+        .filter-segmented-control {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            width: 100%;
+            margin-bottom: 32px;
+            background: rgba(0, 0, 0, 0.12);
+            padding: 6px;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+        }
+
+        .segment-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 12px 6px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .segment-tab-btn.tab-active, .segment-tab-btn:hover {
+            background: var(--card-hover-bg);
+            color: var(--text-primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* No Results Notification Card */
+        .empty-search-fallback {
+            display: none;
+            background: var(--card-bg);
+            border: 1px dashed var(--card-border);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        /* ==========================================================================
+           8. COMPREHENSIVE LINK GENERATOR ROUTER CARDS (DATA ENTRIES)
+           ========================================================================== */
+        .router-cards-list-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .resource-router-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 20px 24px;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        /* Vertical Color Accents Mapping */
+        .resource-router-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 6px;
+        }
+
+        .sub-type-biology::before { background-color: var(--bio-color); }
+        .sub-type-chemistry::before { background-color: var(--chem-color); }
+        .sub-type-physics::before { background-color: var(--phy-color); }
+        .sub-type-general::before { background-color: var(--general-color); }
+
+        .card-inner-flex-block {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            text-align: left;
+        }
+
+        .card-icon-bounding-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .sub-type-biology .card-icon-bounding-box { background: var(--bio-bg); color: var(--bio-color); }
+        .sub-type-chemistry .card-icon-bounding-box { background: var(--chem-bg); color: var(--chem-color); }
+        .sub-type-physics .card-icon-bounding-box { background: var(--phy-bg); color: var(--phy-color); }
+        .sub-type-general .card-icon-bounding-box { background: var(--general-bg); color: var(--general-color); }
+
+        .card-textual-hierarchy {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .card-main-title {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .card-secondary-description {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .card-action-indicator-arrow {
+            color: var(--text-muted);
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Card Interaction States */
+        .resource-router-card:hover {
+            transform: translateY(-3px);
+            background: var(--card-hover-bg);
+            border-color: var(--card-hover-border);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .resource-router-card:hover .card-action-indicator-arrow {
+            color: var(--text-primary);
+            transform: translateX(4px);
+        }
+
+        /* Custom Notification Badges Inside Cards */
+        .status-badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .status-badge-critical { background-color: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
+        .status-badge-fresh { background-color: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+
+        /* ==========================================================================
+           9. DYNAMIC MODALS & MODULAR POPUP OVERLAYS
+           ========================================================================== */
+        .modal-overlay-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px;
+        }
+
+        .modal-overlay-layer.modal-visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content-window {
+            background: var(--body-bg-solid);
+            border: 1px solid var(--card-border);
+            width: 100%;
+            max-width: 480px;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay-layer.modal-visible .modal-content-window {
+            transform: scale(1);
+        }
+
+        .modal-close-trigger {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .modal-body-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        /* Support Input fields in feedback window */
+        .modal-input-element {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .modal-action-btn {
+            background: var(--primary-accent);
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .modal-action-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* ==========================================================================
+           10. LAYOUT FOOTER & CODENAME ATTRIBUTIONS
+           ========================================================================== */
+        .footer-branding-block {
+            margin-top: 60px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .footer-logo-text {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 700;
+        }
+
+        .footer-copyright {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CONTAINER APPLICATION SHELL -->
+    <div class="app-shell">
+
+        <!-- UTILITY CONTROL DOCK -->
+        <div class="utility-dock">
+            <button class="dock-btn" id="theme-toggle-btn" title="Toggle Interface Visual Theme" onclick="toggleThemeEngine()">🌓</button>
+            <button class="dock-btn" id="announcement-bell-btn" title="View Portal Announcements" onclick="triggerModal('announcement-modal')">🔔</button>
+        </div>
+
+        <!-- PROFILE HOOD ARCHITECTURE -->
+        <header class="profile-container">
+            <div class="avatar-matrix">
+                <div class="avatar-glow"></div>
+                <img class="profile-image" src="https://via.placeholder.com/150" alt="Bhumit K. Hathwalia Profile Asset">
+                <span class="badge-verified">✓</span>
+            </div>
+            <h1 class="identity-title">Bhumit K. Hathwalia</h1>
+            <p class="identity-sub-headline">Helping you navigate the medical entrance syllabus systematically. Access high-yield revision trackers, mistake notebooks, and structured topic summaries below.</p>
+            
+            <!-- Contextual Social Icon Row Array -->
+            <div class="social-matrix-row">
+                <a href="#" class="social-link-item" target="_blank">✈ Telegram Channel</a>
+                <a href="#" class="social-link-item" target="_blank">▶ YouTube Lectures</a>
+                <a href="#" class="social-link-item" target="_blank">📸 Instagram</a>
+            </div>
+        </header>
+
+        <!-- COUNTDOWN SYSTEM GRAPHIC INFRASTRUCTURE -->
+        <div class="countdown-ticker-box">
+            <div class="countdown-title-row">
+                <span class="live-pulse"></span>
+                <span>NEET Examination Countdown Ticker</span>
+            </div>
+            <div class="countdown-grid" id="countdown-renderer">
+                <div class="countdown-segment">
+                    <span class="time-val" id="days-count">00</span>
+                    <span class="time-lbl">Days</span>
+                </div>
+                <div class="countdown-segment">
+                    <span class="time-val" id="hours-count">00</span>
+                    <span class="time-lbl">Hours</span>
+                </div>
+                <div class="countdown-segment">
+                    <span class="time-val" id="minutes-count">00</span>
+                    <span class="time-lbl">Mins</span>
+                </div>
+                <div class="countdown-segment">
+                    <span class="time-val" id="seconds-count">00</span>
+                    <span class="time-lbl">Secs</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MARQUEE FLOATING ACTION ANNOUNCEMENT BLOCK -->
+        <a href="#" onclick="event.preventDefault(); triggerModal('live-class-modal');" class="marquee-announcement-banner">
+            <div class="announcement-inner-content">
+                <div class="announcement-icon-badge">🎯</div>
+                <div class="announcement-main-text">
+                    <span class="announcement-header-label">High-Yield Revision Strategy Pack</span>
+                    <span class="announcement-sub-label">Click to access the custom tracker frameworks.</span>
+                </div>
+            </div>
+            <span class="announcement-action-chip">Open</span>
+        </a>
+
+        <!-- REAL-TIME FILTER ENGINE BOX -->
+        <div class="search-engine-box">
+            <span class="search-icon-magnifier">🔍</span>
+            <input type="text" class="search-input-field" id="search-filter-input" placeholder="Search across core resources..." onkeyup="executeSearchFiltering()">
+        </div>
+
+        <!-- MATRIX CONTROL MULTI-TAB SELECTION FILTERS -->
+        <nav class="filter-segmented-control">
+            <button class="segment-tab-btn tab-active" id="tab-all" onclick="filterCategorySelection('all')">All</button>
+            <button class="segment-tab-btn" id="tab-biology" onclick="filterCategorySelection('biology')">Biology</button>
+            <button class="segment-tab-btn" id="tab-chemistry" onclick="filterCategorySelection('chemistry')">Chemistry</button>
+            <button class="segment-tab-btn" id="tab-physics" onclick="filterCategorySelection('physics')">Physics</button>
+        </nav>
+
+        <!-- NO RESULTS FALLBACK SCREEN CONTAINER -->
+        <div class="empty-search-fallback" id="search-fallback-card">
+            No active resources match your search query. Try typing another topic.
+        </div>
+
+        <!-- GENERATED MASTER PACK ROUTER LINK GRID LIST -->
+        <div class="router-cards-list-wrapper" id="master-links-grid-box">
+            
+            <!-- ENTRY BLOCK: BIOLOGY MODULES -->
+            <a href="#" class="resource-router-card sub-type-biology route-item biology">
+                <div class="card-inner-flex-block">
+                    <div class="card-icon-bounding-box">🧬</div>
+                    <div class="card-textual-hierarchy">
+                        <span class="card-main-title">NCERT Biology Line-by-Line Index <span class="status-badge status-badge-critical">High-Yield</span></span>
+                        <span class="card-secondary-description">Comprehensive breakdown of textbook priorities and notes.</span>
+                    </div>
+                </div>
+                <div class="card-action-indicator-arrow">➔</div>
+            </a>
+
+            <a href="#" class="resource-router-card sub-type-biology route-item biology">
+                <div class="card-inner-flex-block">
+                    <div class="card-icon-bounding-box">🌿</div>
+                    <div class="card-textual-hierarchy">
+                        <span class="card-main-title">Plant Physiology Micro-Mindmaps</span>
+                        <span class="card-secondary-description">Visual summaries for structural pathway tracing.</span>
+                    </div>
+                </div>
+                <div class="card-action-indicator-arrow">➔</div>
+            </a>
+
+            <a href="#" class="resource-router-card sub-type-biology route-item biology">
+                <div class="card-inner-flex-block">
+                    <div class="card-icon-bounding-box">🫀</div>
+                    <div class="card-textual-hierarchy">
+                        <span class="card-main-title">Human Physiology High-Yield Fact Sheets</span>
+                        <span class="card-secondary-description">Systems, data ranges, and quick recall maps.</span>
+                    </div>
+                </div>
+                <div class="card-action-indicator-arrow">➔</div>
+            </a>
+
+            <!-- ENTRY BLOCK: CHEMISTRY MODULES -->
+            <a href="#" class="resource-router-card sub-type-chemistry route-item chemistry">
+                <div class="card-inner-flex-block">
+                    <div class="card-icon-bounding-box">🧪</div>
+                    <div class="card-textual-hierarchy">
+                        <span class="card-main-title">Organic Chemistry Nomenclature System <span class="status-badge status-badge-fresh">Updated</span></span>
+                        <span class="card-secondary-description">Core IUPAC rules, structural sequencing, and priority rankings.</span>
+                    </div>
+                </div>
+                <div class="card-action-indicator-arrow">➔</div>
+            </a>
+
+            <a href="#" class="resource-router-card sub-type-chemistry route-item chemistry">
+                <div class="card-inner-flex-block">
+                    <div class="card-icon-bounding-box">⚗️</div>
+                    <div class="card-textual-hierarchy">
+                        <span class="card-main-title">General Organic Chemistry (GOC) Reference Pack</span>
+                        <span class="card-secondary-description">Consolidated mechanisms, inductive effects, and stability parameters.</span>
+                    </div>
+                </div>
+                <div class="card-action-indicator-arrow">➔</div>
+            </a>
+
+            <a href="#" class="resource-router-card sub-type-chemistry route-item chemistry">
+                <div class="card-inner-flex-block">
+                    <div class="card-icon-bounding-box">💎</div>
+                    <div class="card-textual-hierarchy">
+                        <span class="card-main-title">Inorganic Trend Exception Sheets</span>
+                        <span class="card-secondary-description">Every anomaly in blocks and configurations in one file.</span>
+                    </div>
+                </div>
+                <div class="card-action-indicator-arrow">➔</div>
+            </a>
+
+            <!-- ENTRY BLOCK: PHYSICS MODULES -->
+            <a href="#" class="resource-router-card sub-type-physics route-item physics">
+                <div class="card-inner-flex-block">
+                    <div class="card-icon-bounding-box">⚡</div>
+                    <div class="card-textual-hierarchy">
+                        <span class="card-main-title">Electrodynamics Formula Vault</span>
+                        <span class="card-secondary-description">Core field configurations and charge calculations.</span>
+                    </div>
+                </div>
+                <div class="card-action-indicator-arrow">➔</div>
+            </a>
+
+            <a href="#" class="resource-router-card sub-type-physics route-item physics">
+                <div class="card-inner-flex-block">
+                    <div class="card-icon-bounding-box">⚙️</div>
+                    <div class="card-textual-hierarchy">
+                        <span class="card-main-title">Mechanics Framework Blueprints</span>
+                        <span class="card-secondary-description">Step-by-step vector problem structures and layouts.</span>
+                    </div>
+                </div>
+                <div class="card-action-indicator-arrow">➔</div>
+            </a>
+
+            <!-- ENTRY BLOCK: LOGISTICS TRACKER GENERAL -->
+            <a href="#" class="resource-router-card sub-type-general route-item all">
+                <div class="card-inner-flex-block">
+                    <div class="card-icon-bounding-box">📓</div>
+                    <div class="card-textual-hierarchy">
+                        <span class="card-main-title">The Mistake Notebook Framework</span>
+                        <span class="card-secondary-description">Printable structured sheets for analysis and error tracking.</span>
+                    </div>
+                </div>
+                <div class="card-action-indicator-arrow">➔</div>
+            </a>
+
+            <a href="#" onclick="event.preventDefault(); triggerModal('feedback-modal');" class="resource-router-card sub-type-general route-item all">
+                <div class="card-inner-flex-block">
+                    <div class="card-icon-bounding-box">💬</div>
+                    <div class="card-textual-hierarchy">
+                        <span class="card-main-title">Submit Resource Requests & Feedback</span>
+                        <span class="card-secondary-description">Request specific notes or suggest portal updates directly.</span>
+                    </div>
+                </div>
+                <div class="card-action-indicator-arrow">➔</div>
+            </a>
+
+        </div>
+
+        <!-- LAYOUT FOOTER ATTESTATIONS -->
+        <footer class="footer-branding-block">
+            <div class="footer-logo-text">Curated by Bhumit K. Hathwalia</div>
+            <div class="footer-copyright">&copy; <span id="year-target"></span> All Rights Reserved</div>
+        </footer>
+
+    </div>
+
+    <!-- MODAL POPUP SUB-SYSTEM LAYERS -->
+    <!-- MODAL 1: SYSTEM ANNOUNCEMENTS -->
+    <div class="modal-overlay-layer" id="announcement-modal" onclick="dismissModalOnOutsideClick(event)">
+        <div class="modal-content-window">
+            <button class="modal-close-trigger" onclick="dismissModal('announcement-modal')">✕</button>
+            <h3 class="modal-title">System Bulletins</h3>
+            <p class="modal-body-text">Welcome to the central resource hub. New chapter revision logs and curated flashcard sets are updated weekly across every category.</p>
+            <button class="modal-action-btn" onclick="dismissModal('announcement-modal')">Understood</button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: GENERAL INSIGHTS -->
+    <div class="modal-overlay-layer" id="live-class-modal" onclick="dismissModalOnOutsideClick(event)">
+        <div class="modal-content-window">
+            <button class="modal-close-trigger" onclick="dismissModal('live-class-modal')">✕</button>
+            <h3 class="modal-title">Resource Architecture</h3>
+            <p class="modal-body-text">This index is structured for optimal mobile navigation during revision phases. Bookmark this page for quick access.</p>
+            <button class="modal-action-btn" onclick="dismissModal('live-class-modal')">Explore System</button>
+        </div>
+    </div>
+
+    <!-- MODAL 3: SUBMIT REQUESTS FORMS -->
+    <div class="modal-overlay-layer" id="feedback-modal" onclick="dismissModalOnOutsideClick(event)">
+        <div class="modal-content-window">
+            <button class="modal-close-trigger" onclick="dismissModal('feedback-modal')">✕</button>
+            <h3 class="modal-title">Submit Resource Request</h3>
+            <p class="modal-body-text">Let Bhumit know what specific question banks, chapters, or cheat sheets you need added to the hub.</p>
+            <input type="text" class="modal-input-element" placeholder="Your Name" required>
+            <textarea class="modal-input-element" rows="3" placeholder="Describe the topics or materials you need..." style="resize: none;" required></textarea>
+            <button class="modal-action-btn" onclick="submitFeedbackFormEngine()">Submit Request</button>
+        </div>
+    </div>
+
+
+    <!-- ==========================================================================
+       11. ENHANCED JAVASCRIPT ARCHITECTURE & LOGICAL INTERPOLATION ENGINES
+       ========================================================================== */ -->
+    <script>
+        // Set context year on runtime load execution
+        document.getElementById('year-target').textContent = new Date().getFullYear();
+
+        /* --------------------------------------------------------------------------
+           A. APPLICATION SYSTEM INTERACTIVE THEME MANAGEMENT
+           -------------------------------------------------------------------------- */
+        function toggleThemeEngine() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', targetTheme);
+        }
+
+        /* --------------------------------------------------------------------------
+           B. SEGMENT TAB CONTROL SELECTION FILTERS & ANIMATION LOGIC
+           -------------------------------------------------------------------------- */
+        let currentActiveCategoryFilter = 'all';
+
+        function filterCategorySelection(category) {
+            currentActiveCategoryFilter = category;
+            
+            // Adjust Active State Layout Styles across Segment Buttons
+            const tabs = document.querySelectorAll('.segment-tab-btn');
+            tabs.forEach(tab => {
+                if(tab.id === `tab-${category}`) {
+                    tab.classList.add('tab-active');
+                } else {
+                    tab.classList.remove('tab-active');
+                }
+            });
+
+            // Re-run unified search and filter validation framework
+            executeSearchFiltering();
+        }
+
+        /* --------------------------------------------------------------------------
+           C. ADVANCED INTEGRATED REAL-TIME FILTER AND SEARCH SYSTEMS
+           -------------------------------------------------------------------------- */
+        function executeSearchFiltering() {
+            const searchQueryValue = document.getElementById('search-filter-input').value.toLowerCase().trim();
+            const routerCards = document.querySelectorAll('.route-item');
+            const fallbackCard = document.getElementById('search-fallback-card');
+            let displayedCardsCounter = 0;
+
+            routerCards.forEach(card => {
+                const cardTitleText = card.querySelector('.card-main-title').textContent.toLowerCase();
+                const cardDescText = card.querySelector('.card-secondary-description').textContent.toLowerCase();
+                
+                // Check if card matches category filter settings
+                const matchesCategory = (currentActiveCategoryFilter === 'all' || card.classList.contains(currentActiveCategoryFilter));
+                
+                // Check if card matches search phrase parameters
+                const matchesSearch = cardTitleText.includes(searchQueryValue) || cardDescText.includes(searchQueryValue);
+
+                if (matchesCategory && matchesSearch) {
+                    card.style.display = 'flex';
+                    displayedCardsCounter++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Adjust display visibility settings for fallback notice card
+            if (displayedCardsCounter === 0) {
+                fallbackCard.style.display = 'block';
+            } else {
+                fallbackCard.style.display = 'none';
+            }
+        }
+
+        /* --------------------------------------------------------------------------
+           D. DELICATE MODAL INTERACTION CONTROLLERS
+           -------------------------------------------------------------------------- */
+        function triggerModal(modalId) {
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                modalElement.classList.add('modal-visible');
+            }
+        }
+
+        function dismissModal(modalId) {
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                modalElement.classList.remove('modal-visible');
+            }
+        }
+
+        function dismissModalOnOutsideClick(event) {
+            if (event.target.classList.contains('modal-overlay-layer')) {
+                event.target.classList.remove('modal-visible');
+            }
+        }
+
+        function submitFeedbackFormEngine() {
+            alert("Thank you! Your resource request has been recorded successfully.");
+            const visibleModals = document.querySelectorAll('.modal-overlay-layer');
+            visibleModals.forEach(modal => modal.classList.remove('modal-visible'));
+            
+            // Clear inputs inside fields
+            const inputs = document.querySelectorAll('.modal-input-element');
+            inputs.forEach(input => input.value = '');
+        }
+
+        /* --------------------------------------------------------------------------
+           E. CONTINUOUS DYNAMIC AUTOMATED EXAM COUNTDOWN TICKER ENGINE
+           -------------------------------------------------------------------------- */
+        function initializeCountdownTicker() {
+            // Target date sets up dynamically for the next seasonal milestone
+            const currentYear = new Date().getFullYear();
+            let targetExamDate = new Date(`May 3, ${currentYear} 10:00:00`).getTime();
+            
+            function updateTimerCalculation() {
+                const now = new Date().getTime();
+                let timeDifference = targetExamDate - now;
+
+                // If date passed already, set up counter framework targeting subsequent cycle year
+                if (timeDifference < 0) {
+                    targetExamDate = new Date(`May 3, ${currentYear + 1} 10:00:00`).getTime();
+                    timeDifference = targetExamDate - now;
+                }
+
+                // Time math calculations variables mapping 
+                const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+                // Print results smoothly inside the rendering elements blocks
+                document.getElementById('days-count').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours-count').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes-count').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds-count').textContent = seconds.toString().padStart(2, '0');
+            }
+
+            // Fire running initialization loop processes instantly
+            updateTimerCalculation();
+            setInterval(updateTimerCalculation, 1000);
+        }
+
+        // Initialize countdown sequence engines on asset execution load
+        window.addEventListener('DOMContentLoaded', initializeCountdownTicker);
+    </script>
+</body>
+  </html>
